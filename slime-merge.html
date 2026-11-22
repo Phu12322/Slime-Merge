@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1A2233">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Slime Merge">
 <link rel="manifest" href="manifest.json">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
@@ -30,7 +30,9 @@
   #bgblur{position:fixed;inset:-40px;z-index:0;background-size:cover;background-position:center;
     filter:blur(28px) brightness(.5) saturate(1.2);display:none}
   #app{position:relative;z-index:1;width:100%;max-width:480px;height:100dvh;max-height:100dvh;display:flex;flex-direction:column;
-    padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));gap:8px;box-sizing:border-box}
+    padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px));gap:8px;box-sizing:border-box}
+  @supports (padding:constant(safe-area-inset-top)){ #app{padding-top:calc(10px + constant(safe-area-inset-top,0px));padding-bottom:calc(12px + constant(safe-area-inset-bottom,0px));} }
+  @media (display-mode: standalone){ #app{padding-top:calc(14px + env(safe-area-inset-top,20px));} }
   .hidden{display:none!important}
   .glass{background:var(--glass);border:1px solid var(--glass-brd);border-radius:22px;
     backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);
