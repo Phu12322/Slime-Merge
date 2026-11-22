@@ -13,9 +13,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <script>if(!window.Matter){document.write('<script src="matter.min.js"><\/script>')}</script>
 <style>
-  @font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/bevn-400.ttf") format("truetype");}
-  @font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/bevn-700.ttf") format("truetype");}
-  @font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:900;font-display:swap;src:url("fonts/bevn-900.ttf") format("truetype");}
+  @font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/bevn-400.woff2") format("woff2"),url("fonts/bevn-400.ttf") format("truetype");}
+  @font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/bevn-700.woff2") format("woff2"),url("fonts/bevn-700.ttf") format("truetype");}
+  @font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:900;font-display:swap;src:url("fonts/bevn-900.woff2") format("woff2"),url("fonts/bevn-900.ttf") format("truetype");}
   :root{
     --bg:#1A2233; --txt:#F2F5FA; --dim:#98A3B8;
     --glass:rgba(255,255,255,.09); --glass-brd:rgba(255,255,255,.22);
@@ -89,7 +89,8 @@
     background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.1));transform:rotate(-20deg)}
   .bubble:active{cursor:grabbing}
   .bubble.dragging{opacity:.25}
-  #stageWrap{flex:8;min-height:0;position:relative;border-radius:24px;overflow:hidden;
+  button,input,select{font-family:inherit}
+  #stageWrap{flex:0 0 auto;height:clamp(300px,46dvh,460px);min-height:0;position:relative;border-radius:24px;overflow:hidden;
     background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)) center/cover no-repeat;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 20px 60px rgba(0,0,0,.35)}
   #stageWrap.hasbg{border:1px solid var(--glass-brd)}
@@ -143,7 +144,6 @@
   body{overflow-x:hidden;overscroll-behavior:none}
   @supports (padding:env(safe-area-inset-bottom)){ #app{padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))} }
   #gameScreen{overflow:hidden;min-height:0}
-  #stageWrap{flex:1 1 auto;min-height:160px}
   @media (max-height:700px){ #trayWrap{padding:6px 8px 8px} #trayTop{font-size:10px} .slot{max-width:56px;border-radius:16px} }
   .card,.pill,.txtbtn{min-width:0}
   .card b{font-size:clamp(14px,4.6vw,17px)}
@@ -187,6 +187,7 @@
       <button class="txtbtn" id="pauseBtn" data-i18n="pause">TẠM DỪNG</button>
       <button class="txtbtn" id="restartBtn" data-i18n="restart">CHƠI LẠI</button>
       <button class="txtbtn" id="homeBtn" data-i18n="home">SẢNH</button>
+      <button class="txtbtn" id="exitBtn" data-i18n="exit">THOÁT</button>
       <button class="txtbtn" id="langBtn">EN</button>
     </div>
     <div id="trayWrap" class="glass">
@@ -267,7 +268,7 @@ play:'B\u1eaeT \u0110\u1ea6U CH\u01a0I',custom:'T\u00d9Y CH\u1ec8NH \u1ea2NH N\u
 achTitle:'TH\u00c0NH T\u00cdCH \u2014 M\u1ed0C B\u00d3NG \u0110\u00c3 M\u1ede KH\u00d3A',unlocked:'\u0110\u00c3 M\u1ede',locked:'KH\u00d3A',
 lbScore:'\u0110I\u1ec2M',lbBest:'K\u1ef6 L\u1ee4C',lbMax:'MAX',trayLabel:'KHAY CH\u1edd \u2014 K\u00c9O H\u1ebeT 5 \u0110\u1ec2 RA \u0110\u1ee2T M\u1edaI',
 hint:'Nh\u1ea5n gi\u1eef v\u00e0 k\u00e9o \u0111\u1ec3 n\u00e9m slime v\u00e0o v\u00f9ng tr\u1ed1ng ph\u00eda tr\u00ean<br>Th\u1ea3 \u0111\u00e8 l\u00ean b\u00f3ng kh\u00e1c s\u1ebd b\u1ecb tr\u1ea3 v\u1ec1 khay',
-warn:'S\u1eaeP TR\u00c0N',level:'C\u1ea4P',pause:'T\u1ea0M D\u1eeaNG',resume:'TI\u1ebeP T\u1ee4C',restart:'CH\u01a0I L\u1ea0I',home:'S\u1ea2NH',dangerLine:'V\u1ea0CH TR\u00c0N',
+warn:'S\u1eaeP TR\u00c0N',level:'C\u1ea4P',pause:'T\u1ea0M D\u1eeaNG',resume:'TI\u1ebeP T\u1ee4C',restart:'CH\u01a0I L\u1ea0I',home:'S\u1ea2NH',exit:'THO\u00c1T',dangerLine:'V\u1ea0CH TR\u00c0N',
 goTitle:'V\u00e1n k\u1ebft th\u00fac',goScore:'\u0110i\u1ec3m',goMax:'Max',goTime:'Th\u1eddi gian v\u00e1n',goBest:'K\u1ef7 l\u1ee5c',again:'CH\u01a0I L\u1ea0I',goHome:'V\u1ec0 S\u1ea2NH',
 bgTitle:'T\u00f9y ch\u1ec9nh n\u1ec1n s\u00e2n ch\u01a1i',bgDesc:'\u1ea2nh ch\u1ec9 \u00e1p d\u1ee5ng cho khu v\u1ef1c ch\u1ee9a b\u00f3ng (k\u1ec3 c\u1ea3 v\u1ea1ch danger). N\u1ec1n ngo\u00e0i s\u00e2n s\u1ebd t\u1ef1 l\u00e0m m\u1edd.',
 choose:'CH\u1eccN \u1ea2NH T\u1eea M\u00c1Y',fitLabel:'Ki\u1ec3u hi\u1ec3n th\u1ecb',fitCover:'Ph\u1ee7 \u0111\u1ea7y',fitContain:'V\u1eeba khung',dimLabel:'L\u1edb p ph\u1ee7 t\u1ed1i',
@@ -277,7 +278,7 @@ play:'PLAY',custom:'CUSTOM ARENA BACKGROUND',stBest:'BEST',stMax:'TOP TILE',stTi
 achTitle:'ACHIEVEMENTS \u2014 UNLOCKED TILE MILESTONES',unlocked:'UNLOCKED',locked:'LOCKED',
 lbScore:'SCORE',lbBest:'BEST',lbMax:'MAX',trayLabel:'TRAY \u2014 CLEAR ALL 5 TO GET THE NEXT BATCH',
 hint:'Press, hold and fling a slime into the empty space above<br>Dropping onto other balls sends it back to the tray',
-warn:'OVERFLOW',level:'LV',pause:'PAUSE',resume:'RESUME',restart:'RESTART',home:'LOBBY',dangerLine:'DANGER LINE',
+warn:'OVERFLOW',level:'LV',pause:'PAUSE',resume:'RESUME',restart:'RESTART',home:'LOBBY',exit:'EXIT',dangerLine:'DANGER LINE',
 goTitle:'Game over',goScore:'Score',goMax:'Max',goTime:'Round time',goBest:'Best',again:'PLAY AGAIN',goHome:'LOBBY',
 bgTitle:'Customize arena background',bgDesc:'The image applies only to the ball area (including the danger line). The outside is auto-blurred.',
 choose:'CHOOSE IMAGE',fitLabel:'Display mode',fitCover:'Fill',fitContain:'Fit',dimLabel:'Dark overlay',
@@ -760,6 +761,18 @@ $('homeBtn').onclick=toLobby;
 $('overHomeBtn').onclick=toLobby;
 $('againBtn').onclick=reset;
 $('restartBtn').onclick=()=>{if(started)reset();};
+if($('exitBtn'))$('exitBtn').onclick=async()=>{
+  try{persist();}catch(e){}
+  try{
+    if(window.pywebview&&window.pywebview.api&&window.pywebview.api.app_exit){await window.pywebview.api.app_exit();return;}
+  }catch(e){}
+  try{
+    const r=await fetch('/api/exit',{method:'POST'}).catch(()=>null);
+    if(r&&r.ok)return;
+  }catch(e){}
+  try{window.close();}catch(e){}
+  setTimeout(()=>{toLobby();},150);
+};
 $('pauseBtn').onclick=e=>{
   if(!started||over)return;
   paused=!paused;e.target.textContent=paused?t('resume'):t('pause');

@@ -58,6 +58,14 @@ class Handler(SimpleHTTPRequestHandler):
             return self._send_json(read_store())
         return super().do_GET()
     def do_POST(self):
+        if self.path == "/api/exit":
+            self._send_json({"ok": True})
+            def _bye():
+                import time
+                time.sleep(0.3)
+                os._exit(0)
+            threading.Thread(target=_bye, daemon=True).start()
+            return
         if self.path in ("/api/state", "/api/bg"):
             try:
                 n = int(self.headers.get("Content-Length", "0") or 0)
