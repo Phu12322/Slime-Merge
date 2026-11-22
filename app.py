@@ -91,7 +91,7 @@ def main():
     port = server.server_address[1]
     threading.Thread(target=server.serve_forever, daemon=True).start()
     url = f"http://127.0.0.1:{port}/slime-merge.html"
-    webview.create_window("Slime Merge", url, width=480, height=900, resizable=True, min_size=(360, 640))
+    webview.create_window("Slime Merge", url, width=480, height=900, resizable=True, min_size=(360, 640), fullscreen=True)
     try:
         webview.start(gui="edgechromium")
     finally:
