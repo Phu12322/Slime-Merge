@@ -196,7 +196,7 @@
     </div>
     <div id="stageWrap" class="glass">
       <canvas id="game"></canvas>
-      <div id="warn"><span data-i18n="warn">SẮP TRÀN</span> <span id="count">5</span>s</div>
+      <div id="warn"><span data-i18n="warn">SẮP TRÀN</span><span id="count"></span></div>
       <div id="hint" data-i18n="hint">Nhấn giữ và kéo để ném slime vào vùng trống phía trên<br>Thả đè lên bóng khác sẽ bị trả về khay</div>
       <div class="overlay" id="overOverlay">
         <div class="panel">
@@ -639,18 +639,17 @@ function loop(now){
     ctx.fillText(f.txt,f.x,f.y);}
   ctx.globalAlpha=1;
   if(!over){
-    let worst=0;
+    let hit=null,near=false;
     for(const b of bubbles){
       const p=b.body.position,spd=Math.hypot(b.body.velocity.x,b.body.velocity.y);
-      if(p.y-b.r*.4<dangerY&&spd<0.6&&Date.now()-b.bornAt>1500)b.overTime+=1/60;
-      else b.overTime=Math.max(0,b.overTime-1/30);
-      worst=Math.max(worst,b.overTime);
+      if(Date.now()-b.bornAt>800&&p.y-b.r<dangerY&&spd<1.0){hit=b;break;}
+      if(p.y-b.r<dangerY+24)near=true;
     }
-    overTimer=worst;
     const warn=$('warn');
-    if(worst>0.4){warn.classList.add('show');$('count').textContent=Math.max(0,Math.ceil(graceSec-worst));}
+    if(hit){warn.classList.remove('show');gameOver();}
+    else if(near){warn.classList.add('show');$('count').textContent='!';}
     else warn.classList.remove('show');
-    if(worst>=graceSec)gameOver();
+    overTimer=hit?99:0;
   }
 }
 function gameOver(){
