@@ -90,7 +90,7 @@
   .bubble:active{cursor:grabbing}
   .bubble.dragging{opacity:.25}
   button,input,select{font-family:inherit}
-  #stageWrap{flex:0 0 auto;height:clamp(300px,46dvh,460px);min-height:0;position:relative;border-radius:24px;overflow:hidden;
+  #stageWrap{flex:1 1 auto;min-height:280px;position:relative;border-radius:24px;overflow:hidden;
     background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)) center/cover no-repeat;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 20px 60px rgba(0,0,0,.35)}
   #stageWrap.hasbg{border:1px solid var(--glass-brd)}
@@ -165,6 +165,7 @@
     </div>
     <button class="menubtn" id="playBtn" data-i18n="play">BẮT ĐẦU CHƠI</button>
     <button class="menubtn ghostbtn" id="customBtn" data-i18n="custom">TÙY CHỈNH ẢNH NỀN SÂN CHƠI</button>
+    <button class="menubtn ghostbtn" id="lobbyExitBtn" data-i18n="exit">THOÁT</button>
     <div class="statsrow">
       <div class="stat glass"><small data-i18n="stBest">KỶ LỤC</small><b id="lobbyBest">0</b></div>
       <div class="stat glass"><small data-i18n="stMax">BÓNG CAO NHẤT</small><b id="lobbyMax">2</b></div>
@@ -187,7 +188,6 @@
       <button class="txtbtn" id="pauseBtn" data-i18n="pause">TẠM DỪNG</button>
       <button class="txtbtn" id="restartBtn" data-i18n="restart">CHƠI LẠI</button>
       <button class="txtbtn" id="homeBtn" data-i18n="home">SẢNH</button>
-      <button class="txtbtn" id="exitBtn" data-i18n="exit">THOÁT</button>
       <button class="txtbtn" id="langBtn">EN</button>
     </div>
     <div id="trayWrap" class="glass">
@@ -761,7 +761,7 @@ $('homeBtn').onclick=toLobby;
 $('overHomeBtn').onclick=toLobby;
 $('againBtn').onclick=reset;
 $('restartBtn').onclick=()=>{if(started)reset();};
-if($('exitBtn'))$('exitBtn').onclick=async()=>{
+if($('lobbyExitBtn'))$('lobbyExitBtn').onclick=async()=>{
   try{persist();}catch(e){}
   try{
     if(window.pywebview&&window.pywebview.api&&window.pywebview.api.app_exit){await window.pywebview.api.app_exit();return;}
